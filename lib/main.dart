@@ -1,7 +1,8 @@
-import 'package:LeniBooks/book_tile.dart';
+import 'package:LeniBooks/UI/book_tile.dart';
 import 'package:flutter/material.dart';
-import 'book.dart';
-import 'book_collection.dart';
+import 'UI/book_tile.dart';
+import 'UI/user_input.dart';
+import 'Model/book.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,104 +13,86 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Leni Books",
       theme: ThemeData(
         primarySwatch: Colors.pink,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'LeniBooks'),
+      home: AllBooksPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class AllBooksPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _AllBooksState createState() => _AllBooksState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'List of all books goes here (as scrollable list of rounded tiles)',
-      style: optionStyle,
-    ),
-    Text(
-      'List of all favorites goes here',
-      style: optionStyle,
-    ),
-    Text(
-      'Reading List goes here',
-      style: optionStyle,
-    ),
+class _AllBooksState extends State<AllBooksPage> {
+  List<Book> books = [
+    Book("Die unendliche Geschichte", 5, "Suppi!", true, 1),
+    Book("Can't Hurt Me", 5, "Suppi!", true, 2),
+    Book("12 Rules for Life", 1, "Kacke!!", false, 3),
+    Book("Tess", 3, "Meh!", false, 4),
+    Book("Money", 4, "", false, 6),
   ];
 
-  void _onItemTapped(int index) {
+  Book b = Book("Money", 4, "", false, 6);
+
+  void addBook(String title) {
     setState(() {
-      _selectedIndex = index;
+      books.add(Book(title, 0, "", false, 6));
     });
+    Navigator.of(context).pop();
+  }
+
+  void removeAllBooks() {
+    setState(() {
+      books.clear();
+      books = [
+        Book("Die unendliche Geschichte", 5, "Suppi!", true, 1),
+        Book("Can't Hurt Me", 5, "Suppi!", true, 2),
+        Book("12 Rules for Life", 1, "Kacke!!", false, 3),
+        Book("Tess", 3, "Meh!", false, 4),
+        Book("Money", 4, "", false, 6),
+      ];
+    });
+  }
+
+  void newEntry() {
+    showDialog<AlertDialog>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: TextField(
+            onSubmitted: addBook,
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Leni's Books"),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          BookCollection collection = BookCollection();
-
-          collection.addSampleBook();
-
-          var b = collection.getUserBooks().last;
-          print(b.bookId);
-        },
-        child: Icon(Icons.add),
+        title: Text("All Books"),
         backgroundColor: Colors.pink,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            title: Text('Books'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text('Favorites'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            title: Text('Reading List'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.pink[1],
-        onTap: _onItemTapped,
+      body: ListView.builder(
+        // gridDelegate:
+        //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemCount: books.length,
+        itemBuilder: (context, i) {
+          var b = books[i];
+          return BookTile(b.title, b.rating, b.note, b.isFavorite);
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: newEntry,
+        child: Icon(Icons.add),
       ),
     );
-  }
-}
-
-class BookPage extends StatefulWidget {
-  @override
-  _BookPageState createState() => _BookPageState();
-}
-
-class _BookPageState extends State<BookPage> {
-  List<Book> bookList = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
