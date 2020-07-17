@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Leni Books",
       theme: ThemeData(
+        backgroundColor: Colors.transparent,
         primarySwatch: Colors.pink,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -75,24 +76,33 @@ class _AllBooksState extends State<AllBooksPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("All Books"),
-        backgroundColor: Colors.pink,
+    return Stack(children: <Widget>[
+      Image.asset(
+        'assets/images/bookshelf.jpg',
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
       ),
-      body: ListView.builder(
-        // gridDelegate:
-        //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: books.length,
-        itemBuilder: (context, i) {
-          var b = books[i];
-          return BookTile(b.title, b.rating, b.note, b.isFavorite);
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: newEntry,
-        child: Icon(Icons.add),
-      ),
-    );
+      Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text("All Books"),
+          backgroundColor: Colors.pink,
+        ),
+        body: ListView.builder(
+          // gridDelegate:
+          //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          itemCount: books.length,
+          itemBuilder: (context, i) {
+            var b = books[i];
+            return BookTile(b.title, b.rating, b.note, b.isFavorite);
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: newEntry,
+          child: Icon(Icons.add),
+        ),
+      )
+    ]);
   }
 }

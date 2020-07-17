@@ -17,18 +17,29 @@ class BookTile extends StatelessWidget {
 
     return Center(
         child: Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(15),
       child: Column(
         children: <Widget>[
           Container(
-            // height: ,
+            // height: 100,
             decoration: ShapeDecoration.fromBoxDecoration(
               BoxDecoration(
-                color: Colors.lightBlueAccent,
+                // color: Colors.grey,
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.blue, Colors.red],
+                ),
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 20.0,
+                  ),
+                ],
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
-            padding: EdgeInsets.symmetric(vertical: 10.0),
+            padding: EdgeInsets.all(10.0),
             child: Center(
               child: Column(children: <Widget>[
                 Text(
@@ -38,6 +49,7 @@ class BookTile extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 Text(rating),
                 Text(
