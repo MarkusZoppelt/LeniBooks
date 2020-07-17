@@ -1,5 +1,5 @@
 # LeniBooks
-
+![Flutter Build APK CI](https://github.com/MarkusZoppelt/LeniBooks/workflows/Flutter%20Build%20APK%20CI/badge.svg?branch=master)
 
 A simple and elegant app for managing books you've read or want to read.
 
