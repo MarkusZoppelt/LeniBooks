@@ -1,6 +1,10 @@
 # LeniBooks
 
-A new Flutter project.
+
+A simple and elegant app for managing books you've read or want to read.
+
+Please take a look at the [development board](/projects/1) if you want to contribute.
+
 
 ## Getting Started
 
