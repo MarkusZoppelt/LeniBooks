@@ -3,7 +3,9 @@
 
 A simple and elegant app for managing books you've read or want to read.
 
-Please take a look at the [development board](/projects/1) if you want to contribute.
+** This is work in progress **
+
+Please take a look at the [development board](https://github.com/MarkusZoppelt/LeniBooks/projects/1) if you want to contribute new features.
 
 
 ## Getting Started
