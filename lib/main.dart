@@ -8,18 +8,6 @@ void main() {
   runApp(MyApp());
 }
 
-class BookManager extends StatefulWidget {
-  @override
-  _BookManagerState createState() => _BookManagerState();
-}
-
-class _BookManagerState extends State<BookManager> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
