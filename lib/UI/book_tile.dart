@@ -110,23 +110,25 @@ class ContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Text(
-        this.title,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
+    return Column(
+      children: <Widget>[
+        Text(
+          this.title,
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
-      ),
-      Text(rating),
-      Text(
-        this.notes.toString(),
-        style: TextStyle(
-          color: Colors.white,
+        Text(rating),
+        Text(
+          this.notes.toString(),
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }

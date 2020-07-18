@@ -98,11 +98,23 @@ class _AllBooksState extends State<AllBooksPage> {
             itemCount: books.length,
             itemBuilder: (context, i) {
               var b = books[i];
-              return BookTile(
-                b.title,
-                b.rating,
-                b.note,
-                b.isFavorite,
+
+              return Dismissible(
+                key: Key(books[i].title),
+                confirmDismiss: (DismissDirection direction) async {
+                  return await buildShowDismissConfirmDialog(context);
+                },
+                onDismissed: (direction) {
+                  setState(() {
+                    removeBook(b.title);
+                  });
+                },
+                child: BookTile(
+                  b.title,
+                  b.rating,
+                  b.note,
+                  b.isFavorite,
+                ),
               );
             },
           ),
@@ -112,6 +124,27 @@ class _AllBooksState extends State<AllBooksPage> {
           ),
         )
       ],
+    );
+  }
+
+  Future<bool> buildShowDismissConfirmDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Delete Confirmation"),
+          content: const Text("Are you sure you want to delete this book?"),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text("Delete")),
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text("Cancel"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
