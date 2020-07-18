@@ -2,6 +2,7 @@ import 'package:LeniBooks/UI/book_tile.dart';
 import 'package:flutter/material.dart';
 import 'UI/book_tile.dart';
 import 'Model/book.dart';
+import 'UI/add_book_dialogue.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,9 +51,9 @@ class _AllBooksState extends State<AllBooksPage> {
     Book("Money", 4, "", false),
   ];
 
-  void addBook(String title) {
+  void addBook(Book book) {
     setState(() {
-      books.add(Book(title, 0, "", false));
+      books.add(book);
     });
     Navigator.of(context).pop();
   }
@@ -67,11 +68,7 @@ class _AllBooksState extends State<AllBooksPage> {
     showDialog<AlertDialog>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: TextField(
-            onSubmitted: addBook,
-          ),
-        );
+        return AddBookDialogue(addBook);
       },
     );
   }
