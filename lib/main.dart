@@ -1,11 +1,22 @@
 import 'package:LeniBooks/UI/book_tile.dart';
 import 'package:flutter/material.dart';
 import 'UI/book_tile.dart';
-import 'UI/user_input.dart';
 import 'Model/book.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+class BookManager extends StatefulWidget {
+  @override
+  _BookManagerState createState() => _BookManagerState();
+}
+
+class _BookManagerState extends State<BookManager> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -32,32 +43,23 @@ class AllBooksPage extends StatefulWidget {
 
 class _AllBooksState extends State<AllBooksPage> {
   List<Book> books = [
-    Book("Die unendliche Geschichte", 5, "Suppi!", true, 1),
-    Book("Can't Hurt Me", 5, "Suppi!", true, 2),
-    Book("12 Rules for Life", 1, "Kacke!!", false, 3),
-    Book("Tess", 3, "Meh!", false, 4),
-    Book("Money", 4, "", false, 6),
+    Book("Die unendliche Geschichte", 5, "Suppi!", true),
+    Book("Can't Hurt Me", 5, "Suppi!", true),
+    Book("12 Rules for Life", 1, "Kacke!!", false),
+    Book("Tess", 3, "Meh!", false),
+    Book("Money", 4, "", false),
   ];
-
-  Book b = Book("Money", 4, "", false, 6);
 
   void addBook(String title) {
     setState(() {
-      books.add(Book(title, 0, "", false, 6));
+      books.add(Book(title, 0, "", false));
     });
     Navigator.of(context).pop();
   }
 
-  void removeAllBooks() {
+  void removeBook(String title) {
     setState(() {
-      books.clear();
-      books = [
-        Book("Die unendliche Geschichte", 5, "Suppi!", true, 1),
-        Book("Can't Hurt Me", 5, "Suppi!", true, 2),
-        Book("12 Rules for Life", 1, "Kacke!!", false, 3),
-        Book("Tess", 3, "Meh!", false, 4),
-        Book("Money", 4, "", false, 6),
-      ];
+      books.removeWhere((element) => element.title == title);
     });
   }
 
@@ -76,33 +78,73 @@ class _AllBooksState extends State<AllBooksPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Image.asset(
-        'assets/images/bookshelf.jpg',
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        fit: BoxFit.cover,
-      ),
-      Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text("All Books"),
-          backgroundColor: Colors.pink,
+    return Stack(
+      children: <Widget>[
+        Image.asset(
+          'assets/images/bookshelf.jpg',
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
         ),
-        body: ListView.builder(
-          // gridDelegate:
-          //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemCount: books.length,
-          itemBuilder: (context, i) {
-            var b = books[i];
-            return BookTile(b.title, b.rating, b.note, b.isFavorite);
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: newEntry,
-          child: Icon(Icons.add),
-        ),
-      )
-    ]);
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("All Books"),
+            backgroundColor: Colors.pink,
+          ),
+          body: ListView.builder(
+            // gridDelegate:
+            //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemCount: books.length,
+            itemBuilder: (context, i) {
+              var b = books[i];
+
+              return Dismissible(
+                key: Key(books[i].title),
+                confirmDismiss: (DismissDirection direction) async {
+                  return await buildShowDismissConfirmDialog(context);
+                },
+                onDismissed: (direction) {
+                  setState(() {
+                    removeBook(b.title);
+                  });
+                },
+                child: BookTile(
+                  b.title,
+                  b.rating,
+                  b.note,
+                  b.isFavorite,
+                ),
+              );
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: newEntry,
+            child: Icon(Icons.add),
+          ),
+        )
+      ],
+    );
+  }
+
+  Future<bool> buildShowDismissConfirmDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Delete Confirmation"),
+          content: const Text("Are you sure you want to delete this book?"),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text("Delete")),
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text("Cancel"),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
