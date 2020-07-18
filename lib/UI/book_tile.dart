@@ -24,26 +24,29 @@ class BookTile extends StatelessWidget {
       rating += "⭐";
     }
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GestureDetector(
-          onTap: () async {
-            Book bookToRemove = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailedBookView(
-                  b: b,
-                ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0),
+      child: GestureDetector(
+        onTap: () async {
+          Book bookToRemove = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailedBookView(
+                b: b,
               ),
-            );
-            if (bookToRemove is Book) {
-              print("Remove!");
-            }
-          },
-          child: Container(
-            padding: EdgeInsets.all(5),
-            child: TileWidget(title: title, rating: rating, notes: notes),
+            ),
+          );
+          if (bookToRemove is Book) {
+            print("Remove!");
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: TileWidget(
+            title: title,
+            rating: rating,
+            notes: notes,
+            isFavorite: isFavorite,
           ),
         ),
       ),
@@ -51,20 +54,37 @@ class BookTile extends StatelessWidget {
   }
 }
 
-class TileWidget extends StatelessWidget {
-  const TileWidget({
+class TileWidget extends StatefulWidget {
+  TileWidget({
     Key key,
     @required this.title,
     @required this.rating,
     @required this.notes,
+    @required this.isFavorite,
   }) : super(key: key);
 
   final String title;
   final String rating;
   final String notes;
+  bool isFavorite;
+
+  @override
+  _TileWidgetState createState() => _TileWidgetState();
+}
+
+class _TileWidgetState extends State<TileWidget> {
+  void toggleFavorite() {
+    setState(() {
+      widget.isFavorite = !widget.isFavorite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    var icon = Icons.favorite_border;
+    if (widget.isFavorite) {
+      icon = Icons.favorite;
+    }
     return Column(
       children: <Widget>[
         Container(
@@ -75,7 +95,7 @@ class TileWidget extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Colors.blue, Colors.red],
+                colors: [Colors.red, Colors.blue],
               ),
               boxShadow: [
                 new BoxShadow(
@@ -87,8 +107,22 @@ class TileWidget extends StatelessWidget {
             ),
           ),
           padding: EdgeInsets.all(10.0),
-          child: Center(
-            child: ContentWidget(title: title, rating: rating, notes: notes),
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    icon,
+                    color: Colors.red,
+                  ),
+                  onPressed: toggleFavorite),
+              Container(
+                width: MediaQuery.of(context).size.width / 2 + 50,
+                child: ContentWidget(
+                    title: widget.title,
+                    rating: widget.rating,
+                    notes: widget.notes),
+              ),
+            ],
           ),
         ),
       ],
@@ -112,6 +146,7 @@ class ContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Text(rating),
         Text(
           this.title,
           style: TextStyle(
@@ -121,7 +156,6 @@ class ContentWidget extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        Text(rating),
         Text(
           this.notes.toString(),
           style: TextStyle(
