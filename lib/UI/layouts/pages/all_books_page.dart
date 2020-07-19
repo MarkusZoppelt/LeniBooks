@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:LeniBooks/Data/book_storage.dart';
 import 'package:LeniBooks/Model/book.dart';
 import 'package:LeniBooks/UI/elements/book_tile.dart';
 
@@ -8,39 +9,26 @@ class AllBooksPage extends StatefulWidget{
 }
 
 class AllBooksPageState extends State<AllBooksPage>{
-  List<Book> books = [
-    Book("Die unendliche Geschichte", 5, "Suppi!", true),
-    Book("Can't Hurt Me", 5, "Suppi!", true),
-    Book("12 Rules for Life", 1, "Kacke!!", false),
-    Book("Tess", 3, "Meh!", false),
-    Book("Money", 4, "", false),
-  ];
+  List<Book> books;
 
-  Book b = Book("Money", 4, "", false);
+  AllBooksPageState(){
+    books = BookStorage.instance.allBooks;
+  }
 
-  void addBook(String title) {
+  void addBook(String title, {int rating = 0, String note = "", bool isFavourite = false}) {
     setState(() {
-      books.add(Book(title, 0, "", false));
+      Book book = Book(title, rating, note, isFavourite);
+      BookStorage.instance.addBook(book);
+      books = BookStorage.instance.allBooks;
     });
     Navigator.of(context).pop();
   }
 
   void removeBook(String title) {
     setState(() {
-      books.removeWhere((element) => element.title == title);
-    });
-  }
-
-  void removeAllBooks() {
-    setState(() {
-      books.clear();
-      books = [
-        Book("Die unendliche Geschichte", 5, "Suppi!", true),
-        Book("Can't Hurt Me", 5, "Suppi!", true),
-        Book("12 Rules for Life", 1, "Kacke!!", false),
-        Book("Tess", 3, "Meh!", false),
-        Book("Money", 4, "", false),
-      ];
+      Book book = books.firstWhere((element) => element.title == title);
+      BookStorage.instance.deleteBook(book);
+      books = BookStorage.instance.allBooks;
     });
   }
 

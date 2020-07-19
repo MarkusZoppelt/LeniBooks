@@ -42,7 +42,7 @@ class MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.red[50],
       // *** Top App Bar ***
       appBar: AppBar(
         title: Text("Leni Books"),
