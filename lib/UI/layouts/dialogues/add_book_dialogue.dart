@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Model/book.dart';
+import '../../../Model/book.dart';
 
 class AddBookDialogue extends StatefulWidget {
   final void Function(Book book) addBook;

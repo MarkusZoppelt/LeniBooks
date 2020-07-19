@@ -3,7 +3,6 @@ import 'package:LeniBooks/UI/layouts/pages/settings_page.dart';
 import 'package:LeniBooks/UI/layouts/pages/to_read_page.dart';
 import 'package:flutter/material.dart';
 import 'package:LeniBooks/UI/layouts/main_layout.dart';
-import 'UI/add_book_dialogue.dart';
 import 'UI/layouts/pages/all_books_page.dart';
 
 void main() {

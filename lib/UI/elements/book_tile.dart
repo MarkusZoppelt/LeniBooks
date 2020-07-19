@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:LeniBooks/Model/book.dart';
-import 'package:LeniBooks/UI/detailed_book_view.dart';
+import 'package:LeniBooks/UI/layouts/views/detailed_book_view.dart';
 
 class BookTile extends StatelessWidget {
   final String title;
@@ -91,16 +91,12 @@ class _TileWidgetState extends State<TileWidget> {
           // height: 100,
           decoration: ShapeDecoration.fromBoxDecoration(
             BoxDecoration(
-              // color: Colors.grey,
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [Colors.red, Colors.blue],
-              ),
+              color: Colors.red[50],
               boxShadow: [
                 new BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 20.0,
+                  color: Colors.black26,
+                  blurRadius: 2.0,
+                  offset: Offset(0.0, 3.0)
                 ),
               ],
               borderRadius: BorderRadius.circular(20.0),
