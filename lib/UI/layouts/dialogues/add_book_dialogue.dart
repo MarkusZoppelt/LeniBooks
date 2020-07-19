@@ -81,7 +81,10 @@ class _AddBookDialogueState extends State<AddBookDialogue> {
                 'Save',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: save,
+              onPressed: () {
+                save(); 
+                Navigator.of(context).pop();
+              },
             ),
           ],
         ),
