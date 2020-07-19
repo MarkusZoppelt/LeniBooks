@@ -1,6 +1,5 @@
-import 'package:LeniBooks/main.dart';
 import 'package:flutter/material.dart';
-import '../Model/book.dart';
+import 'package:LeniBooks/Model/book.dart';
 import 'package:share/share.dart';
 
 class DetailedBookView extends StatelessWidget {
@@ -28,7 +27,6 @@ class DetailedBookView extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(b.title),
             Text(rating),
