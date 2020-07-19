@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'book.dart';
 
 class BookCollection{
+  //TODO: implement version for possible future changes?
   List<Book> _books;
   List<Book> get books => _books;
 
@@ -10,7 +10,7 @@ class BookCollection{
 
   BookCollection.fromJson(String json){
     Map<String, dynamic> decoded = jsonDecode(json);
-    List<Book> decodedBooks;
+    List<Book> decodedBooks = List<Book>();
 
     for(var bookJson in decoded["books"]){
       var book = Book.fromJson(bookJson as String);
@@ -21,7 +21,7 @@ class BookCollection{
   }
 
   String toJson(){
-    List<String> encodedBooks;
+    List<String> encodedBooks = List<String>();
 
     for(var book in _books){
       encodedBooks.add(book.toJson());

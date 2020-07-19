@@ -1,43 +1,71 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:LeniBooks/Log/logger.util.dart';
 import 'package:LeniBooks/Model/book.dart';
 import 'package:LeniBooks/Model/book_collection.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BookStorage {
   static final BookStorage instance = BookStorage.internal();
+  final log = getLogger();
+
+  List<ValueChanged<List<Book>>> onBooksChanged = List<ValueChanged<List<Book>>>();
   
-  List<Book> _allBooks;
+  List<Book> _allBooks = List<Book>();
   List<Book> get allBooks => _allBooks;
 
-  factory BookStorage() {
+  factory BookStorage({ValueChanged<List<Book>> onBooksChanged}) {
+    instance.onBooksChanged.add(onBooksChanged);
     return instance;
   }
 
   BookStorage.internal(){
-    _allBooks = [
-      Book("Die unendliche Geschichte", 5, "Suppi!", true),
-      Book("Can't Hurt Me", 5, "Suppi!", true),
-      Book("12 Rules for Life", 1, "Kacke!!", false),
-      Book("Tess", 3, "Meh!", false),
-      Book("Money", 4, "", false),
-    ];
+    readBooksFromStorage();
+    log.d(BookCollection(_allBooks).toJson());
   }
 
   void addBook(Book book){
     _allBooks.add(book);
+    writeBooksToStorage();
+    afterBooksChanged();
+    log.d(BookCollection(_allBooks).toJson());
   }
 
   void deleteBook(Book book){
     _allBooks.removeWhere((element) => element.title == book.title);
+    writeBooksToStorage();
+    afterBooksChanged();
+    log.d(BookCollection(_allBooks).toJson());
   }
 
   void readBooksFromStorage() async{
-    //TODO: read from storage file
+    try{
+      final File storageFile = await _bookStorageFile;
+      String contents = await storageFile.readAsString();
+      BookCollection decoded = BookCollection.fromJson(contents);
+      log.d(decoded.toJson());
+      _allBooks = decoded.books;
+      
+      afterBooksChanged();
+    }
+    catch(ex) {
+      //TODO: actual error handling
+      log.e(ex);
+      throw ex;
+    }
   }
 
-  void writeBooksToStorage(){
-    //TODO: write to storage file
+  void writeBooksToStorage() async{
+    String encoded = BookCollection(_allBooks).toJson();
+    final File storageFile = await _bookStorageFile;
+    await storageFile.writeAsString(encoded);
+    log.d("Successfully written all books to storage");
+  }
+
+  void afterBooksChanged(){
+    for(var callback in onBooksChanged){
+      callback.call(_allBooks);
+    }
   }
 
   Future<String> get _localPath async {
@@ -67,7 +95,7 @@ class BookStorage {
     final File storageFile = File(path);
     await storageFile.create();
 
-    BookCollection collection = BookCollection(_allBooks);
+    BookCollection collection = BookCollection(List<Book>());
     String json = collection.toJson();
     await storageFile.writeAsString(json);
 

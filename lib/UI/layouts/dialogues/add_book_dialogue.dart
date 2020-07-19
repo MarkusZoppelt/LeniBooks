@@ -14,8 +14,6 @@ class _AddBookDialogueState extends State<AddBookDialogue> {
   final GlobalKey<FormState> formKey = GlobalKey();
   Book book = Book("", 1, "", false);
 
-  var _title, _rating, notes;
-
   void saveTitle() {
     if (formKey.currentState.validate()) {}
   }
@@ -76,15 +74,9 @@ class _AddBookDialogueState extends State<AddBookDialogue> {
             TextFormField(
               onChanged: (String txt) => book.note = txt,
               onFieldSubmitted: (String txt) => save(),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return "Please enter a value";
-                }
-                return null;
-              },
             ),
             RaisedButton(
-              color: Colors.pink,
+              color: Colors.red[300],
               child: Text(
                 'Save',
                 style: TextStyle(color: Colors.white),

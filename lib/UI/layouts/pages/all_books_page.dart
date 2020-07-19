@@ -9,10 +9,17 @@ class AllBooksPage extends StatefulWidget{
 }
 
 class AllBooksPageState extends State<AllBooksPage>{
-  List<Book> books;
+  List<Book> books = List<Book>();
 
   AllBooksPageState(){
-    books = BookStorage.instance.allBooks;
+    BookStorage(onBooksChanged: setBooks);
+    books = List<Book>();
+  }
+
+  void setBooks(List<Book> newBooks){
+    setState(() {
+      books = newBooks;
+    });
   }
 
   void addBook(String title, {int rating = 0, String note = "", bool isFavourite = false}) {

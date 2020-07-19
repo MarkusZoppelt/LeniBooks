@@ -1,3 +1,4 @@
+import 'package:LeniBooks/Data/book_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:LeniBooks/UI/layouts/dialogues/add_book_dialogue.dart';
 import 'package:LeniBooks/UI/elements/app_bar_bottom_item.dart';
@@ -27,7 +28,7 @@ class MainLayoutState extends State<MainLayout> {
     showDialog<AlertDialog>(
       context: context,
       builder: (BuildContext context) {
-        return AddBookDialogue(null);
+        return AddBookDialogue(BookStorage.instance.addBook);
       },
     );
   }
