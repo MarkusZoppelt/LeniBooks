@@ -24,16 +24,11 @@ class BookTile extends StatelessWidget {
             // height: 100,
             decoration: ShapeDecoration.fromBoxDecoration(
               BoxDecoration(
-                // color: Colors.grey,
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Colors.blue, Colors.red],
-                ),
+                color: Colors.red[50],
                 boxShadow: [
                   new BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 20.0,
+                    color: Colors.black54,
+                    blurRadius: 2.0,
                   ),
                 ],
                 borderRadius: BorderRadius.circular(20.0),
