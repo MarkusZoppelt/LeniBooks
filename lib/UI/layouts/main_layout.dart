@@ -1,5 +1,6 @@
-import 'package:LeniBooks/UI/elements/app_bar_bottom_item.dart';
 import 'package:flutter/material.dart';
+import 'package:LeniBooks/UI/layouts/dialogues/add_book_dialogue.dart';
+import 'package:LeniBooks/UI/elements/app_bar_bottom_item.dart';
 import 'package:LeniBooks/UI/elements/app_bar_bottom.dart';
 
 class MainLayout extends StatefulWidget {
@@ -26,11 +27,7 @@ class MainLayoutState extends State<MainLayout> {
     showDialog<AlertDialog>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: TextField(
-            onSubmitted: null,
-          ),
-        );
+        return AddBookDialogue(null);
       },
     );
   }
@@ -54,7 +51,7 @@ class MainLayoutState extends State<MainLayout> {
         centerTitle: true,
         textTheme: TextTheme(
           headline6: TextStyle(
-            color: Colors.teal[700],
+            color: Colors.teal[200],
             fontWeight: FontWeight.bold,
             fontSize: 20,
           )

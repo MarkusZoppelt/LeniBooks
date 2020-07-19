@@ -88,10 +88,9 @@ class _TileWidgetState extends State<TileWidget> {
     return Column(
       children: <Widget>[
         Container(
-          // height: 100,
           decoration: ShapeDecoration.fromBoxDecoration(
             BoxDecoration(
-              color: Colors.red[50],
+              color: Colors.white,
               boxShadow: [
                 new BoxShadow(
                   color: Colors.black26,
@@ -148,14 +147,14 @@ class ContentWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color:  Colors.red[200],
           ),
           textAlign: TextAlign.center,
         ),
         Text(
           this.notes.toString(),
           style: TextStyle(
-            color: Colors.white,
+            color:  Colors.red[200],
           ),
         ),
       ],
