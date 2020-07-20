@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class UserInput extends StatefulWidget {
   @override
-  _UserInputState createState() => _UserInputState();
+  UserInputState createState() => UserInputState();
 }
 
-class _UserInputState extends State<UserInput> {
+class UserInputState extends State<UserInput> {
   void updateUserText(String text) {
     setState(() {
       bookTitle = text;

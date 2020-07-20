@@ -1,6 +1,6 @@
-import 'package:LeniBooks/main.dart';
 import 'package:flutter/material.dart';
-import '../Model/book.dart';
+import 'package:LeniBooks/Model/book.dart';
+import 'package:share/share.dart';
 
 class DetailedBookView extends StatelessWidget {
   final Book b;
@@ -14,7 +14,7 @@ class DetailedBookView extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detailed Book View"),
+        title: Text(b.title),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete),
@@ -27,17 +27,22 @@ class DetailedBookView extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(b.title),
             Text(rating),
             Text(b.note),
-            RaisedButton(
+            IconButton(
+              icon: Icon(Icons.share),
               onPressed: () {
-                Navigator.pop(context);
+                Share.share(
+                    b.title +
+                        "\nRating:" +
+                        rating +
+                        "\n\nHere are my notes:" +
+                        b.note,
+                    subject: b.title + ' (shared with LeniBooks)');
               },
-              child: Text('Go back!'),
-            ),
+            )
           ],
         ),
       ),
