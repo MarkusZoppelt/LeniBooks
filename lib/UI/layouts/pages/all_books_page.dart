@@ -16,6 +16,12 @@ class AllBooksPageState extends State<AllBooksPage>{
     books = List<Book>();
   }
 
+  @override
+  void dispose() {
+    BookStorage.instance.removeOnBooksChangedCallback(setBooks);
+    super.dispose();
+  }
+
   void setBooks(List<Book> newBooks){
     setState(() {
       books = newBooks;
