@@ -68,6 +68,10 @@ class BookStorage {
     }
   }
 
+  void removeOnBooksChangedCallback(ValueChanged<List<Book>> callback){
+    onBooksChanged.remove(callback);
+  }
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
