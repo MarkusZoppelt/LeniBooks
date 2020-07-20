@@ -13,7 +13,8 @@ class AllBooksPageState extends State<AllBooksPage>{
 
   AllBooksPageState(){
     BookStorage(onBooksChanged: setBooks);
-    books = List<Book>();
+    var storageBooks = BookStorage.instance.allBooks;
+    books = storageBooks != null ? storageBooks : List<Book>();
   }
 
   @override
