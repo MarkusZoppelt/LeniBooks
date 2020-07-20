@@ -1,40 +1,35 @@
+import 'dart:convert';
+
 class Book {
-  String _title;
-
-  String get title => _title;
-
-  set title(String title) {
-    _title = title;
-  }
-
-  int _rating;
-
-  int get rating => _rating;
-
-  set rating(int rating) {
-    _rating = rating;
-  }
-
-  String _note;
-
-  String get note => _note;
-
-  set note(String note) {
-    _note = note;
-  }
-
-  bool _isFavorite;
-
-  bool get isFavorite => _isFavorite;
-
-  set isFavorite(bool isFavorite) {
-    _isFavorite = isFavorite;
-  }
+  String title;
+  int rating;
+  String note;
+  bool isFavorite;
 
   Book(
-    this._title,
-    this._rating,
-    this._note,
-    this._isFavorite,
+    this.title,
+    this.rating,
+    this.note,
+    this.isFavorite,
   );
+
+  Book.fromJson(String json) {
+    var decoded = jsonDecode(json) as Map<String, dynamic>;
+    
+    title = decoded["title"];
+    rating = decoded["rating"];
+    note = decoded["note"];
+    isFavorite = decoded["isFavorite"];
+  }
+
+  String toJson() {
+    var temp = {
+      "title": title,
+      "rating": rating,
+      "note": note,
+      "isFavorite": isFavorite,
+    };
+    
+    return jsonEncode(temp);
+  }
 }

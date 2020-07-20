@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:LeniBooks/UI/layouts/main_layout.dart';
+import 'package:LeniBooks/UI/layouts/pages/all_books_page.dart';
 import 'package:LeniBooks/UI/layouts/pages/my_books_page.dart';
 import 'package:LeniBooks/UI/layouts/pages/settings_page.dart';
 import 'package:LeniBooks/UI/layouts/pages/to_read_page.dart';
-import 'package:flutter/material.dart';
-import 'package:LeniBooks/UI/layouts/main_layout.dart';
-import 'UI/layouts/pages/all_books_page.dart';
+import 'package:logger/logger.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Logger.level = Level.debug;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Leni Books",
